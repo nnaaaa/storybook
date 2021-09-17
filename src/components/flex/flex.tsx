@@ -1,38 +1,30 @@
 import React from 'react'
+import { BoxSizingProps } from '../../type/boxsizing'
 
 type AlignType = 'stretch' | 'center' | 'start' | 'end'
+type JustifyType = 'center' | 'start' | 'end' | 'between' | 'evenly' | 'around'
 type DirectionType = 'column' | 'row'
 
-interface FlexProps {
-    children?: React.ReactNode
+interface FlexProps extends BoxSizingProps {
+    children: React.ReactNode
     style?: object
     align?: AlignType
-    justify?: AlignType
+    justify?: JustifyType
     direction?: DirectionType
     spacing?: number
     bg?: string
 }
-interface FlexProps {
-    w?: string | number
-    h?: string | number
-    p?: string | number
-    m?: string | number
-    px?: string | number
-    py?: string | number
-    mx?: string | number
-    my?: string | number
-    pl?: string | number
-    pr?: string | number
-    pt?: string | number
-    pb?: string | number
-    ml?: string | number
-    mr?: string | number
-    mt?: string | number
-    mb?: string | number
-}
+
 
 const alignment = (setting: AlignType): string => {
     if (setting === 'start' || setting === 'end') return 'flex-' + setting
+    else return setting
+}
+
+const justifyment = (setting: JustifyType): string => {
+    if (setting === 'start' || setting === 'end') return 'flex-' + setting
+    else if (setting === 'between' || setting === 'evenly' || setting === 'around')
+        return 'space-' + setting
     else return setting
 }
 
@@ -65,7 +57,7 @@ export const Center = ({
         <div
             style={{
                 display: 'flex',
-                justifyContent: alignment(justify || 'center'),
+                justifyContent: justifyment(justify || 'center'),
                 alignItems: alignment(align || 'center'),
                 flexDirection: direction || 'column',
                 height: h,
@@ -117,7 +109,7 @@ export const HStack = ({
         <div
             style={{
                 display: 'flex',
-                justifyContent: justify ? alignment(justify) : 'flex-start',
+                justifyContent: justify ? justifyment(justify) : 'flex-start',
                 alignItems: align ? alignment(align) : 'flex-start',
                 gap: spacing,
                 height: h,
@@ -171,7 +163,7 @@ export const VStack = ({
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: justify ? alignment(justify) : 'flex-start',
+                justifyContent: justify ? justifyment(justify) : 'flex-start',
                 alignItems: align ? alignment(align) : 'flex-start',
                 gap: spacing ? spacing * 4 : 0,
                 height: h,
